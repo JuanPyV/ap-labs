@@ -4,7 +4,16 @@ Pacman Packages Report
 - Removed packages   : 47
 - Upgraded packages  : 646
 - Current installed  : 385
-
+-------------
+General Stats
+-------------
+- Oldest package               : iana-etc
+- Newest package               : certbot
+- Package with no upgrades     : ncurses, readline, gmp, gdbm, db, coreutils, zlib, xz, bzip2, libseccomp, findutils, pcre, grep, lz4, sed, tar, libunistring, kmod, psmisc, cracklib, audit, less, gzip, expat, libtasn1, libmnl, libnl, libusb, libpcap, libnetfilter_conntrack, libidn2, libssh2, npth, libassuan, pinentry, base, diffutils, dnssec-anchors, ldns, zsh, python-msgpack, python-cachecontrol, python-colorama, python-contextlib2, python-webencodings, python-pep517, python-progress, python-filelock, python-dateutil, python-s3transfer, graphite, xcb-proto, libxcb, libwebp, gd, lzo, avahi, jbig2dec, run-parts, libpaper, ghostscript, guile, make, libmpc, tmate, groff, m4, autoconf, fakeroot, flex, patch, which, package-query, yaourt, ntp, c-ares, semver, atk, dconf, at-spi2-atk, wayland, libxkbcommon, hicolor-icon-theme, adwaita-icon-theme, wayland-protocols, libxshmfence, cantarell-fonts, js60, gsettings-desktop-schemas, brotli, libsoup, rest, libogg, tdb, libcanberra, oniguruma, aws-azure-login, python-pygments, python-markdown, python-werkzeug, python-markupsafe, python-jinja, python-itsdangerous, python-click, python-flask, python-path-and-address, python-grip, apr, ix, ispell, nodejs-gitlab-ci-lint, python-dotenv, python-msgpack, python-cachecontrol, python-contextlib2, python-distro, python-webencodings, python-html5lib, python-toml, python-pep517, python-progress, python-pytoml, python-retrying, python-pip, python-requests, vnstat, python-msgpack, python-cachecontrol, python-contextlib2, python-distro, python-webencodings, python-html5lib, python-toml, python-pep517, python-progress, python-pytoml, python-retrying, python-pip, gpm, python-resolvelib, ruby-reline, ruby-irb, ruby-rdoc, ruby-thor, ruby-erubis, ruby-xdg, tmuxinator, python-invoke, fabric, python-dockerpty, python-click, python-dotenv, sshfs, lynx, go, netstat-nat, wavemon, go-git, terraformer-bin, pacman-contrib, jansson, python-pyopenssl, python-pytz, python-pyrfc3339, python-josepy, python-pbr, python-mock, python-requests-toolbelt, python-acme, python-configargparse, python-configobj, python-future, python-parsedatetime, python-zope-interface, python-zope-proxy, python-zope-deferredimport, python-zope-deprecation, python-zope-event, python-zope-hookable, python-zope-component, certbot, 
+- [ALPM-SCRIPTLET] type count  : 1454
+- [ALPM] count                 : 2208
+- [PACMAN] count               : 602
+-----------------
 List of packages
 -----------------
 - Package Name          : iana-etc

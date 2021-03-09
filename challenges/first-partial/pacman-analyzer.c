@@ -74,26 +74,16 @@ int pkgTransaction(const char *line) {
     return 0;
 }
 
-int getLine(FILE *file, char *line, int size){
-    int currentSize = 0, chars;
-    while ((chars = getc(file)) != '\n' && currentSize < size){
-        if (chars == EOF){
-            break;
-        }
-        line[currentSize] = (char) chars;
-        currentSize++;
-    }
-    line[currentSize] = '\0';
-    return currentSize;
-}
-
 void analizeLog(char *logFile, char *report) {
     printf("Generating Report from: [%s] log file\n", logFile);
 
     // Implement your solution here.
     FILE *fp;
-    char line[255], tmp[15];
-    int lineCount = 0, pkgNumber = 0, installCount = 0, updateCount = 0, removeCount = 0;
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
+    char tmp[15], pkgTmp[25];
+    int lineCount = 0, pkgNumber = 0, installCount = 0, updateCount = 0, removeCount = 0, pacman = 0, almp = 0, almp_scri=0;
 
     fp = fopen(logFile, "r");
     if (fp == NULL) {
@@ -107,9 +97,17 @@ void analizeLog(char *logFile, char *report) {
         return;
     }
 
-    while ((getLine(fp, line, 255)) > 0) {
+    while ((read = getline(&line, &len, fp)) != -1) {
         //printf("%s\n", line);
         lineCount++;
+
+        char *p = strstr(line, "[PACMAN]");
+        char *a = strstr(line, "[ALPM]");
+        char *as = strstr(line, "[ALPM-SCRIPTLET]");
+        if (p != NULL) pacman++;
+        if (a != NULL) almp++;
+        if (as != NULL) almp_scri++;
+
         if (pkgTransaction(line) == 1) {
             installCount++;
             strcpy(packages[pkgNumber].installDate, getDate(line));
@@ -153,10 +151,51 @@ void analizeLog(char *logFile, char *report) {
     write(reportFile, "- Current installed  : ", strlen("- Current installed  : "));
     sprintf(tmp, "%d\n", installCount - removeCount);
     write(reportFile, tmp, strlen(tmp));
-    write(reportFile, "\n", strlen("\n"));
+
+    write(reportFile,"-------------\n",strlen("-------------\n"));
+    write(reportFile,"General Stats\n",strlen("General Stats\n"));
+    write(reportFile,"-------------\n",strlen("-------------\n"));
+    write(reportFile, "- Oldest package               : ", strlen("- Oldest package               : "));
+    write(reportFile, packages[0].name, strlen(packages[0].name));
+    write(reportFile, "\n- Newest package               : ", strlen("\n- Newest package               : "));
+    write(reportFile, packages[pkgNumber-1].name, strlen(packages[pkgNumber-1].name));
+    write(reportFile, "\n- Package with no upgrades     : ", strlen("\n- Package with no upgrades     : "));
+
+    char* noUpdatesPkg[pkgNumber];
+    int j = 0;
+    for (int i = 0; i < pkgNumber; i++) {
+        noUpdatesPkg[i] = "";
+    }
+    for (int i = 0; i < pkgNumber; i++) {
+        noUpdatesPkg[j] = "";
+        if(packages[i].updates == 0){
+            noUpdatesPkg[j] = packages[i].name;
+            j++;
+        }
+    }
+    for (int i = 0; i < pkgNumber; i++) {
+        if(strcmp(noUpdatesPkg[i],"") != 0){
+            sprintf(pkgTmp, "%s, ", noUpdatesPkg[i]);
+            write(reportFile, pkgTmp, strlen(pkgTmp));
+        }
+    }
+
+    write(reportFile, "\n- [ALPM-SCRIPTLET] type count  : ", strlen("\n- [ALPM-SCRIPTLET] type count  : "));
+    sprintf(tmp, "%d\n", almp_scri);
+    write(reportFile, tmp, strlen(tmp));
+
+    write(reportFile, "- [ALPM] count                 : ", strlen("- [ALPM] count                 : "));
+    sprintf(tmp, "%d\n", almp);
+    write(reportFile, tmp, strlen(tmp));
+
+    write(reportFile, "- [PACMAN] count               : ", strlen("- [PACMAN] count               : "));
+    sprintf(tmp, "%d\n", pacman);
+    write(reportFile, tmp, strlen(tmp));
+
+    write(reportFile,"-----------------\n",strlen("-----------------\n"));
     write(reportFile, "List of packages\n", strlen("List of packages\n"));
     write(reportFile,"-----------------\n",strlen("-----------------\n"));
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 1500; i++) {
         if (strcmp(packages[i].name, "") != 0){
             write(reportFile, "- Package Name          : ", strlen("- Package Name          : "));
             write(reportFile,packages[i].name, strlen(packages[i].name));
