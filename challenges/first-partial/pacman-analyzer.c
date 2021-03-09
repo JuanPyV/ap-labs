@@ -211,6 +211,7 @@ void analizeLog(char *logFile, char *report) {
             write(reportFile, "\n", strlen("\n"));
         }
     }
+    close(reportFile);
     printf("Report is generated at: [%s]\n", report);
 }
 
